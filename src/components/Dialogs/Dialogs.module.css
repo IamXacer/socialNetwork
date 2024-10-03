@@ -1,0 +1,67 @@
+.dialogs {
+    display: flex;
+    justify-content: space-between;
+}
+
+.dialogsItems {
+    width: 30%; /* Ширина блока с диалогами */
+    padding: 15px;
+}
+
+.active {
+    margin-left: 40px;
+    color: gold;
+    text-decoration: none;
+}
+.item  {
+    color:whitesmoke;
+    margin-left: 40px;
+    text-decoration: none;
+
+}
+.messages {
+    width: 50%; /* Ширина блока с сообщениями */
+    padding: 15px;
+}
+
+.friendsSection {
+    width: 20%; /* Ширина блока для обоих секций (мои фото и друзья) */
+    background-color: #f8f9fa;
+    border-radius: 10px;
+    padding: 10px;
+    font-size: 14px;
+
+}
+
+/* Сетка и стиль для моих фото */
+.photoGrid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr); /* Сетка из 3 колонок */
+    gap: 8px; /* Расстояние между фотографиями */
+}
+
+.photo {
+    width: 80px; /* Увеличенный размер фото */
+    height: 80px;
+    border-radius: 10px; /* Сглаженные углы */
+    object-fit: cover; /* Фото обрезается по размеру блока */
+}
+
+/* Сетка и стиль для фотографий друзей */
+.friendPhotoGrid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr); /* Сетка из 3 колонок */
+    gap: 8px; /* Расстояние между фотографиями */
+}
+
+.friendPhoto {
+    width: 40px; /* Размеры фото друзей */
+    height: 40px;
+    border-radius: 50%; /* Полностью закругленные углы для фото друзей */
+    object-fit: cover;
+}
+
+.myPhotos, .friendsInfo {
+    margin-bottom: 20px; /* Отступы между секциями */
+
+}

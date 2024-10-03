@@ -1,38 +1,49 @@
-.App {
-  text-align: center;
+.app-wrapper{
+  margin:0 auto;
+  display: grid;
+  width: 100%; /* Растягиваем на всю ширину */
+  max-width: 100%;
+  grid-template-areas:
+          'h h'
+          'n c';
+
+  grid-template-rows:60px 1fr;
+  grid-template-columns:2fr 10fr;
+  /* grid-gap: 10px;*/
+  justify-content: center;
 }
 
-.App-logo {
-  height: 40vmin;
-  pointer-events: none;
+.profileWrapperContent {
+  grid-area:c;
+  background-color: rgba(170, 178, 178, 0.95);
 }
 
-@media (prefers-reduced-motion: no-preference) {
-  .App-logo {
-    animation: App-logo-spin infinite 20s linear;
-  }
+
+
+
+ul li {
+  list-style-type:georgian ;
 }
 
-.App-header {
-  background-color: #282c34;
-  min-height: 100vh;
+
+.content {
+  grid-area: c;
+  background-color: #b793d9;
   display: flex;
   flex-direction: column;
   align-items: center;
-  justify-content: center;
-  font-size: calc(10px + 2vmin);
-  color: white;
-}
 
-.App-link {
-  color: #61dafb;
 }
+.content ul {
+  width: 100%;}
 
-@keyframes App-logo-spin {
-  from {
-    transform: rotate(0deg);
-  }
-  to {
-    transform: rotate(360deg);
-  }
+.content ul img {
+  width: 100%; /* Ширина на 100% */
+  height: 70%; /* Высота на 70% */
+  object-fit: cover; /* Сохраняет пропорции и заполняет контейнер */
+}
+ul li {
+  list-style-type: georgian;
+  text-align: center; /* Центрируем текст */
+  margin: 5px 0; /* Немного отступа для элементов списка */
 }
