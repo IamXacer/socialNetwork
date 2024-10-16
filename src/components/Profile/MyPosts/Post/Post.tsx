@@ -8,7 +8,6 @@ export type PostType = {
 
 export const Post = (props: PostType) => {
     const [likeCount, setLikeCount] = useState(props.initialLikeCount);
-
     const handleLikeClick = () => {
         setLikeCount(likeCount + 1);
     };
