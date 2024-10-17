@@ -15,21 +15,22 @@ export const Dialogs = () => {
         { src: "https://html.crumina.net/html-olympus/img/avatar25-sm.webp", alt: "Friend 8" },
         { src: "https://html.crumina.net/html-olympus/img/avatar45-sm.webp", alt: "Friend 9" },
     ];
+
+
     return (
         <div className={s.dialogs}>
             <div className={s.dialogsItems}>
                 <div>
-                    <DialogsItem id='1' name='Dimich' />
-                    <DialogsItem id='2' name='Sasha'/>
-                    <DialogsItem id='3' name='Sveta'/>
-                    <DialogsItem id='4' name='Viktor'/>
-                    <DialogsItem id='5' name='Valery'/>
+                    <DialogsItem  />
                 </div>
             </div>
             <div className={s.messages}>
-               <Message message='Hi'/>
+                <Message/>
+          {/*     <Message message='Hi'/>
                <Message message='How are you'/>
                <Message message='Yo'/>
+               <Message message='Yo'/>
+               <Message message='Yo'/>*/}
             </div>
 
             {/* Контейнер для фото (мой блок и блок друзей) */}
