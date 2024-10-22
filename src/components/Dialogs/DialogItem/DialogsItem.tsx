@@ -1,23 +1,16 @@
 import React from "react";
-import s from "./Dialogs.module.css";
+import s from "../Dialogs.module.css";
 import {NavLink} from "react-router-dom";
-/*type DialogsItemProps = {
-  id:string,
-  name:string
-}*/
+import {dialogItem, dialogItemType, MessagesType} from "../../../redux/state";
+type DialogsItemProps = {
+    dialogItem:dialogItemType[]
+}
 
-export const DialogsItem = () => {
-    const dialogItem = [
-        { id: 1, name: "Dimich" },
-        { id: 2, name: "Sasha" },
-        { id: 3, name: "Sveta" },
-        { id: 4, name: "Viktor" },
-        { id: 5, name: "Valery" },
-    ];
+export const DialogsItem = (props:DialogsItemProps) => {
 
     return (
         <div>
-            {dialogItem.map((el) => {
+            {props.dialogItem.map((el) => {
                 const path = "/dialog/" + el.id; // Используем el.id вместо props.id
                 return (
                     <div key={el.id} className={s.dialog}>
@@ -47,23 +40,15 @@ export const FriendsPhotoGrid  = (props: FriendsPhotoGridProps) => {
       </div>
   )
 }
-type Messagetype = {
-  message:string
+export type MessagesPropsType ={
+    Messages:MessagesType[]
 }
 
-export const Message = () => {
-    const Messages = [
-        {message: 'Hi',},
-        {message: 'How are you',},
-        {message: 'Yo',},
-        {message: 'Yo',},
-        {message: 'Yo',},
-
-    ]
+export const Message = (props:MessagesPropsType) => {
 return (
     <div>
       <div className={s.message}>K
-          {Messages.map((el,index)=>{
+          {props.Messages.map((el,index)=>{
               return (
                   <div className={s.message}>{el.message}</div>
               )

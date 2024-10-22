@@ -12,6 +12,7 @@ export const Post = (props: PostType) => {
         setLikeCount(likeCount + 1);
     };
 
+
     return (
         <div className={s.item}>
             <div>{props.message}</div>

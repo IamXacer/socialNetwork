@@ -1,36 +1,25 @@
 import React from "react";
 import s from './Dialogs.module.css';
 import {NavLink} from "react-router-dom";
-import {DialogsItem, FriendsPhotoGrid, Message} from "./DialogsItem";
-
-export const Dialogs = () => {
-    const friends = [
-        { src: "https://html.crumina.net/html-olympus/img/avatar38-sm.webp", alt: "Friend 1" },
-        { src: "https://html.crumina.net/html-olympus/img/avatar24-sm.webp", alt: "Friend 2" },
-        { src: "https://html.crumina.net/html-olympus/img/avatar36-sm.webp", alt: "Friend 3" },
-        { src: "https://html.crumina.net/html-olympus/img/avatar35-sm.webp", alt: "Friend 4" },
-        { src: "https://html.crumina.net/html-olympus/img/avatar34-sm.webp", alt: "Friend 5" },
-        { src: "https://html.crumina.net/html-olympus/img/avatar33-sm.webp", alt: "Friend 6" },
-        { src: "https://html.crumina.net/html-olympus/img/avatar28-sm.webp", alt: "Friend 7" },
-        { src: "https://html.crumina.net/html-olympus/img/avatar25-sm.webp", alt: "Friend 8" },
-        { src: "https://html.crumina.net/html-olympus/img/avatar45-sm.webp", alt: "Friend 9" },
-    ];
-
+import {DialogsItem, FriendsPhotoGrid, Message} from "./DialogItem/DialogsItem";
+import {dialogItem, dialogItemType, friends, friendType, Messages, MessagesType} from "../../redux/state";
+ export type DialogsType = {
+     friends:friendType[],
+     Messages:MessagesType[],
+     dialogItem:dialogItemType[]
+}
+export const Dialogs = (props:DialogsType) => {
 
     return (
         <div className={s.dialogs}>
             <div className={s.dialogsItems}>
                 <div>
-                    <DialogsItem  />
+                    <DialogsItem dialogItem={dialogItem}  />
                 </div>
             </div>
             <div className={s.messages}>
-                <Message/>
-          {/*     <Message message='Hi'/>
-               <Message message='How are you'/>
-               <Message message='Yo'/>
-               <Message message='Yo'/>
-               <Message message='Yo'/>*/}
+                <Message Messages={props.Messages}/>
+
             </div>
 
             {/* Контейнер для фото (мой блок и блок друзей) */}
@@ -49,7 +38,7 @@ export const Dialogs = () => {
 
                 <div className={s.friendsInfo}>
                     <h3>Friends (86)</h3>
-                    <FriendsPhotoGrid friends={friends}/>
+                    <FriendsPhotoGrid friends={props.friends}/>
                 </div>
             </div>
         </div>
