@@ -16,11 +16,11 @@
     "react-dom": "^18.3.1",
     "react-router-dom": "^6.27.0",
     "react-scripts": "5.0.1",
-<<<<<<< HEAD
+
     "typescript": "^4.4.2",
-=======
+
     "typescript": "^5.7.3",
->>>>>>> 52988fd (Инициализация проекта и добавление файлов)
+
     "web-vitals": "^2.1.0"
   },
   "scripts": {

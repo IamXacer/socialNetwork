@@ -2,22 +2,10 @@ import React from "react";
 import s from './Dialogs.module.css';
 import {NavLink} from "react-router-dom";
 import {DialogsItem, FriendsPhotoGrid, Message} from "./DialogItem/DialogsItem";
-<<<<<<< HEAD
 import {dialogItem, dialogItemType, friends, friendType, Messages, MessagesType} from "../../redux/state";
  export type DialogsType = {
      friends:friendType[],
      Messages:MessagesType[],
-=======
-import {
-    dialogItem,
-    dialogItemType,
-    friendType,
-    stateType} from "../../redux/state";
-
- export type DialogsType = {
-     friends:friendType[],
-     state:stateType,
->>>>>>> 52988fd (Инициализация проекта и добавление файлов)
      dialogItem:dialogItemType[]
 }
 export const Dialogs = (props:DialogsType) => {
@@ -30,11 +18,7 @@ export const Dialogs = (props:DialogsType) => {
                 </div>
             </div>
             <div className={s.messages}>
-<<<<<<< HEAD
                 <Message Messages={props.Messages}/>
-=======
-                <Message Messages={props.state.dialogPage.Messages}/>
->>>>>>> 52988fd (Инициализация проекта и добавление файлов)
 
             </div>
 
