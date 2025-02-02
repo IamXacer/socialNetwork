@@ -5,9 +5,15 @@ import {Header} from "./components/Header/Header";
 import {NavBar} from "./components/NavBar/NavBar";
 import {MyPosts} from "./components/Profile/MyPosts/MyPosts";
 import {BrowserRouter, Route, Routes} from "react-router-dom";
-import {dialogItem, friends, Messages, posts} from "./redux/state";
+import {addDialogItem, addMessage, StateType} from "./redux/state";
 
-function App() {
+type AppProps = {
+    addPost:(postMassage:string)=>void;
+    state: StateType;
+    addDialogItem:(name: string)=>void;
+    addMessage:(message:string)=>void;
+}
+function App(props: AppProps) {
     return (
         <BrowserRouter>
         <div className="app-wrapper">
@@ -16,11 +22,13 @@ function App() {
             <div className='profileWrapperContent'>
                 <Routes>
                     <Route path="/profile" element= { <MyPosts
-                        posts={posts}
+                        addPost={props.addPost}
+                        state={props.state}
                     />}/>
-                <Route path="/dialog/*" element= {<Dialogs dialogItem={dialogItem}
-                                                           friends={friends}
-                                                           Messages={Messages}/>}/>
+                <Route path="/dialog/*" element= {<Dialogs state={props.state}
+                                                           addDialogItem={addDialogItem}
+                                                           addMessage={addMessage}
+                />}/>
                 </Routes>
             </div>
         </div>

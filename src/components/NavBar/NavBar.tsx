@@ -1,33 +1,49 @@
 import React from "react";
-import s from './NavBar.module.css'
-import {BrowserRouter, NavLink} from "react-router-dom";
+import styled from "styled-components";
+import { NavLink } from "react-router-dom";
 
+// Стили для навбара
+const Nav = styled.nav`
+    display: flex;
+    flex-direction: column; /* Выстраиваем элементы вертикально */
+    background-color: #4790b6;
+    padding: 20px;
+`;
+
+const StyledNavLink = styled(NavLink)`
+    color: whitesmoke;
+    text-decoration: none;
+    margin: 10px 0; /* Фиксированный отступ между кнопками */
+    padding: 5px 0; /* Паддинг для улучшения кликабельности */
+
+    &.active {
+        color: gold;
+    }
+
+    &:hover {
+        color: lightgoldenrodyellow;
+    }
+`;
+
+// Компонент NavBar
 export const NavBar = () => {
     return (
-
-        <nav className={s.nav}>
-            <div className={s.items}>
-                < NavLink to='/profile'className = { nav => nav.isActive ? s.active : s.item }
-                >Profile</NavLink>
-            </div>
-            <div className={s.items}>
-                < NavLink to='/dialog' className = { nav => nav.isActive ? s.active : s.item }>Friends</NavLink>
-            </div>
-            <div className={s.items}>
-                < NavLink to='/news'className = { nav => nav.isActive ? s.active : s.item }
-                >News</NavLink>
-            </div>
-            <div className={s.items}>
-                < NavLink to='/music'className = { nav => nav.isActive ? s.active : s.item }
-                >Music</NavLink>
-            </div>
-            <div className={s.items}>
-                < NavLink to='/setting'className = { nav => nav.isActive ? s.active : s.item }
-                >Settings</NavLink>
-            </div>
-
-        </nav>
-
-
-    )
-}
+        <Nav>
+            <StyledNavLink to="/profile" className={({ isActive }) => (isActive ? "active" : "")}>
+                Profile
+            </StyledNavLink>
+            <StyledNavLink to="/dialog" className={({ isActive }) => (isActive ? "active" : "")}>
+                Friends
+            </StyledNavLink>
+            <StyledNavLink to="/news" className={({ isActive }) => (isActive ? "active" : "")}>
+                News
+            </StyledNavLink>
+            <StyledNavLink to="/music" className={({ isActive }) => (isActive ? "active" : "")}>
+                Music
+            </StyledNavLink>
+            <StyledNavLink to="/setting" className={({ isActive }) => (isActive ? "active" : "")}>
+                Settings
+            </StyledNavLink>
+        </Nav>
+    );
+};
