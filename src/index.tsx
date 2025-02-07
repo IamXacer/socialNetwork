@@ -3,7 +3,7 @@ import ReactDOM from 'react-dom/client';
 import './index.css';
 import App from './App';
 import reportWebVitals from './reportWebVitals';
-import {addDialogItem, addMessage, addPost, state, StateType} from "./redux/state";
+import { addMessage,state, StateType} from "./redux/state";
 
 const root = ReactDOM.createRoot(
   document.getElementById('root') as HTMLElement
@@ -12,7 +12,10 @@ const root = ReactDOM.createRoot(
 let rerenderEntireTree = (state:StateType)=>{
     root.render(
       <React.StrictMode>
-        <App  addPost={addPost} state={state} addDialogItem={addDialogItem}
+        <App
+
+              state={state}
+              /*addDialogItem={addDialogItem}*/
               addMessage={addMessage}
         />
       </React.StrictMode>

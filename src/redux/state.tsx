@@ -69,16 +69,11 @@ export const state: StateType = {
     },
 };
 
-export let addPost = (postMassage:string) => {
-    let newPost = { id: state.profilePage.posts.length + 1,
-        message: postMassage, initialLikeCount:0};
-    state.profilePage.posts.push(newPost);
-}
 
-export let addDialogItem  = ( name:string) => {
+/*export let addDialogItem  = ( name:string) => {
    const newDialogItem = {id: state.profilePage.posts.length + 1,name }
     state.dialogPage.dialogItems.push(newDialogItem)
-}
+}*/
 export let addMessage = (message: string) => {
     const newMessage = { id: state.dialogPage.messages.length + 1, message };
     state.dialogPage.messages.push(newMessage);

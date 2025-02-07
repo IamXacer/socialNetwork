@@ -1,55 +1,82 @@
-import React, {ChangeEvent} from "react";
+import React, {ChangeEvent, useReducer} from "react";
 import styled from "styled-components";
 import { DialogsItem, Message, FriendsPhotoGrid } from "./DialogItem/DialogsItem";
 import { StateType } from "../../redux/state";
+import {ProfileReducer} from "../../redux/Profile-reducer";
+import {addNameAC, DialogsReducer} from "../../redux/Dialogs-reducer";
 
-// Типы для props
+// Types for props
 export type DialogsType = {
     state: StateType;
-    addDialogItem:(name: string)=>void;
-    addMessage:(message: string)=>void;
+ /*   addDialogItem: (name: string) => void;*/
+    addMessage: (message: string) => void;
 };
 
 export const Dialogs = (props: DialogsType) => {
-   const [name, setName] = React.useState("");
-   const [message, setMessage] = React.useState("");
-    let handleTextChange = (e:ChangeEvent<HTMLTextAreaElement>) => {
-        setName(e.currentTarget.value)
-    }
-    let handleAddName = ()=>{
-        if(name.trim()  !==''){
-            props.addDialogItem(name)
-            setName("")
+    const [name, setName] = React.useState("");
+    const [message, setMessage] = React.useState("");
+    const [state, dispatch] = useReducer(DialogsReducer, props.state);
+    const dialogsItems = state.dialogPage.dialogItems;
+    const messages = state.dialogPage.messages;
+
+    const handleTextChange = (e: ChangeEvent<HTMLTextAreaElement>) => {
+        setName(e.currentTarget.value);
+    };
+
+
+    const handleAddName = () => {
+        if (name.trim() !== "") {
+            dispatch(addNameAC(name)); // Теперь типы должны сходиться
+            setName("");
         }
-    }
-    let handleAddMessage = ()=>{
-        if(message.trim()  !==''){
-            props.addMessage(message)
-            setMessage("")
+    };
+
+
+    const handleAddMessage = () => {
+        if (message.trim() !== "") {
+            props.addMessage(message);
+            setMessage("");
         }
-    }
-    let handleMessageChange = (e:ChangeEvent<HTMLTextAreaElement>) => {
-        setMessage(e.currentTarget.value)
-    }
+    };
+
+    const handleMessageChange = (e: ChangeEvent<HTMLTextAreaElement>) => {
+        setMessage(e.currentTarget.value);
+    };
+
+    const RightSection = styled.div`
+        display: flex;
+        justify-content: flex-end;
+        width: 50%; /* Takes up more space */
+`;
     return (
         <DialogsContainer>
             <DialogsWrapper>
-            <DialogsItems>
-                <DialogsItem dialogItems={props.state.dialogPage.dialogItems} />
-            </DialogsItems>
-            <MessagesContainer>
-                <Message Messages={props.state.dialogPage.messages} />
-            </MessagesContainer>
-             <TextAreaContainer>
-                 <textarea value={name} onChange={handleTextChange} placeholder={'Enter you name...'}/>
-                 <textarea value={message} placeholder={'Enter a message...'} onChange={handleMessageChange}/>
-             </TextAreaContainer>
-                <div>
-                    <button onClick={handleAddName }>AddName</button>
-                    <button onClick={handleAddMessage }>AddPost</button>
-                </div>
-        </DialogsWrapper>
+                <DialogsItems>
+                    <DialogsItem dialogItems={dialogsItems} />
+                </DialogsItems>
+                <MessagesContainer>
+                    <Message Messages={messages} />
+                </MessagesContainer>
+                <TextAreaContainer>
+                    <StyledTextArea
+                        value={name}
+                        onChange={handleTextChange}
+                        placeholder="Enter your name..."
+                    />
+                    <StyledTextArea
+                        value={message}
+                        onChange={handleMessageChange}
+                        placeholder="Enter a message..."
+                    />
+                    <ButtonContainer>
+                        <StyledButton onClick={handleAddName}>Add Name</StyledButton>
+                        <StyledButton onClick={handleAddMessage}>Add Post</StyledButton>
+                    </ButtonContainer>
+                </TextAreaContainer>
 
+            </DialogsWrapper>
+
+            <RightSection>
             <FriendsSection>
                 <MyPhotos>
                     <h3>My Photos</h3>
@@ -68,95 +95,139 @@ export const Dialogs = (props: DialogsType) => {
                     <FriendsPhotoGrid friends={props.state.dialogPage.friends} />
                 </FriendsInfo>
             </FriendsSection>
+            </RightSection>
         </DialogsContainer>
     );
 };
 
-
-// Стили для контейнеров
-const TextAreaContainer = styled.div`
-    display: flex;
-    flex-direction: column;
-    padding: 20px;
-`
+// Styled components for the layout
 const DialogsContainer = styled.div`
-  display: flex;
-  flex-direction: column;
-  padding: 20px;
+    display: flex;
+    justify-content: space-between;
+    padding: 20px;
 `;
+
 const DialogsWrapper = styled.div`
     display: flex;
-    justify-content: space-between; /* Keeps elements apart */
-    padding: 15px;
-    position: relative; /* Makes MyPhotos positioned correctly */
+    width: 100%;
+    justify-content: flex-start;  /* Align the items closer to the left */
+    gap: 30px;  /* Increased gap between components */
 `;
 const DialogsItems = styled.div`
-  width: 70%; /* Оставляем пространство для диалогов */
-  padding: 15px;
+    width: 48%;  /* Уменьшаем ширину, чтобы компоненты располагались рядом */
+    padding: 15px;
 `;
 
 
 const MessagesContainer = styled.div`
-    width: 70%; /* Оставляем пространство для сообщений */
+    width: 48%;  /* Уменьшаем ширину, чтобы компоненты располагались рядом */
     padding: 15px;
     display: flex;
-    flex-direction: column; /* Сообщения внутри контейнера */
+    flex-direction: column;
+`;
+
+const TextAreaContainer = styled.div`
+    display: flex;
+    flex-direction: column;
+    padding: 10px 20px;
+    gap: 10px;
+    margin-right: 320px;  /* Adjusted margin to move it closer to the text */
+    width: 40%;  /* Adjust width to better align with the text area and buttons */
+`;
+
+const StyledTextArea = styled.textarea`
+    padding: 12px;
+    margin: 5px 0;
+    border: 1px solid #ddd;
+    border-radius: 8px;
+    font-size: 14px;
+    width: 100%;
+    box-sizing: border-box;
+    resize: none;
+    background-color: #f9f9f9;
+    color: #333;
+
+    &:focus {
+        outline: none;
+        border-color: #4e9bff;
+    }
+`;
+
+const ButtonContainer = styled.div`
+    display: flex;
+    gap: 10px;
+    justify-content: flex-start;
+    
+`;
+
+const StyledButton = styled.button`
+    padding: 10px 20px;
+    border: none;
+    border-radius: 8px;
+    background-color: #4e9bff;
+    color: white;
+    font-size: 14px;
+    cursor: pointer;
+    transition: background-color 0.3s;
+
+    &:hover {
+        background-color: #3a7db2;
+    }
+
+    &:active {
+        background-color: #2e5f8f;
+    }
 `;
 
 const FriendsSection = styled.div`
     display: flex;
     justify-content: space-between;
     padding: 15px;
-    flex-wrap: wrap; /* Allow content to wrap */
+    flex-wrap: wrap;
     gap: 15px;
-    width: 100%; /* Ensure it stretches across the full width */
+    width: 100%;
 `;
-
 
 const MyPhotos = styled.div`
-    width: 48%; /* Default width for larger screens */
-    padding: 0 15px;
+    width: 80%;
+  padding: 0 15px;
 
-    /* For smaller tablets and below */
-    @media (max-width: 768px) {
-        width: 100%; /* Take full width on smaller screens */
-    }
+  @media (max-width: 768px) {
+    width: 100%;
+  }
 `;
+
 const FriendsInfo = styled.div`
-    width: 48%; /* Default width for larger screens */
-    padding: 0 15px;
+  width: 48%;
+  padding: 0 15px;
 
-    /* For smaller tablets and below */
-    @media (max-width: 768px) {
-        width: 100%; /* Take full width on smaller screens */
-    }
+  @media (max-width: 768px) {
+    width: 100%;
+  }
 `;
+
 const PhotoGrid = styled.div`
-    display: grid;
-    grid-template-columns: repeat(4, 1fr); /* 4 columns on larger screens */
-    gap: 8px;
-    margin-top: 15px;
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 8px;
+  margin-top: 15px;
 
-    /* For tablets, switch to 3 columns */
-    @media (max-width: 1024px) {
-        grid-template-columns: repeat(3, 1fr);
-    }
+  @media (max-width: 1024px) {
+    grid-template-columns: repeat(3, 1fr);
+  }
 
-    /* For smaller tablets and below, change to 2 columns */
-    @media (max-width: 768px) {
-        grid-template-columns: repeat(2, 1fr);
-    }
+  @media (max-width: 768px) {
+    grid-template-columns: repeat(2, 1fr);
+  }
 
-    /* For mobile, change to 1 column */
-    @media (max-width: 480px) {
-        grid-template-columns: 1fr;
-    }
+  @media (max-width: 480px) {
+    grid-template-columns: 1fr;
+  }
 `;
-
 
 const Photo = styled.img`
-  width: 100%;
-  height: auto;
-  border-radius: 10px;
-  object-fit: cover;
+    width: 100%;
+    height: auto;
+    border-radius: 10px;
+    object-fit: cover;
 `;

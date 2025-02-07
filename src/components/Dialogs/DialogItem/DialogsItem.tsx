@@ -77,6 +77,7 @@ export const FriendsPhotoGrid = ({ friends }: FriendsPhotoGridProps) => {
     );
 };
 export const DialogsItem = (props: DialogsItemProps) => {
+
     return (
         <div>
             {props.dialogItems.map((el) => {
@@ -85,7 +86,9 @@ export const DialogsItem = (props: DialogsItemProps) => {
                     <DialogItem key={el.id}>
                         <DialogsItemContainer>
                             <DialogName>
-                                <ActiveLink to={path} className={({ isActive }) => (isActive ? "active" : "")}>
+                                <ActiveLink to={path}
+                                            className={({ isActive }) =>
+                                                (isActive ? "active" : "")}>
                                     {el.name}
                                 </ActiveLink>
                             </DialogName>
