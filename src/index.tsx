@@ -3,29 +3,19 @@ import ReactDOM from 'react-dom/client';
 import './index.css';
 import App from './App';
 import reportWebVitals from './reportWebVitals';
-import { addMessage,state, StateType} from "./redux/state";
+import { store } from './redux/redux-store'; // Импортируем store
 
 const root = ReactDOM.createRoot(
-  document.getElementById('root') as HTMLElement
+    document.getElementById('root') as HTMLElement
 );
 
-let rerenderEntireTree = (state:StateType)=>{
+let rerenderEntireTree = () => {
     root.render(
-      <React.StrictMode>
-        <App
-
-              state={state}
-              /*addDialogItem={addDialogItem}*/
-              addMessage={addMessage}
-        />
-      </React.StrictMode>
-    )
+        <React.StrictMode>
+            <App />
+        </React.StrictMode>
+    );
 }
-/*root.render(
-  <React.StrictMode>
-    <App  addPost={addPost}/>
-  </React.StrictMode>
-);*/
-rerenderEntireTree(state)
 
-reportWebVitals();
+// Вызов функции для рендеринга
+rerenderEntireTree();

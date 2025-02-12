@@ -1,12 +1,44 @@
 import React from "react";
-import {StateType} from "./state";
 
-export type ActionType = AddPostActionType
+// Тип для поста
+ type PostsType = {
+    id: number;
+    message: string;
+    initialLikeCount: number;
+};
 
+// Тип для состояния
+ export type ProfileReducerType = {
+    profilePage: {
+        posts: PostsType[];
+    };
+};
 
-export const ProfileReducer = (state: StateType, action: ActionType): StateType => {
+// Начальное состояние
+let initialState: ProfileReducerType = {
+    profilePage: {
+        posts: [
+            { id: 1, message: "Hi, how are you", initialLikeCount: 112 },
+            { id: 2, message: "It's my project", initialLikeCount: 2 },
+            { id: 3, message: "Hi", initialLikeCount: 5 },
+        ],
+    },
+};
+
+// Экшен-креатор для добавления поста
+export const addPostAC = (postMessage: string) => ({
+    type: 'ADD_POST' as const, // Строковый литерал для type
+    postMessage
+});
+
+// Тип экшена, который возвращает addPostAC
+type AddPostActionType = ReturnType<typeof addPostAC>;
+
+// Редюсер
+export const ProfileReducer = (state: ProfileReducerType = initialState, action: AddPostActionType): ProfileReducerType => {
     switch (action.type) {
         case 'ADD_POST':
+            debugger
             const newPost = {
                 id: state.profilePage.posts.length + 1,
                 message: action.postMessage,
@@ -15,19 +47,10 @@ export const ProfileReducer = (state: StateType, action: ActionType): StateType 
             return {
                 ...state,
                 profilePage: {
-                    posts: [...state.profilePage.posts, newPost]
+                    posts: [...state.profilePage.posts, newPost] // Добавляем новый пост
                 }
             };
         default:
             return state;
     }
 };
-// Экшен-креатор для добавления поста
-// Экшен-креатор для добавления поста
-type AddPostActionType = ReturnType<typeof addPostAC>;
-
-export const addPostAC = (postMessage: string) => ({
-    type: 'ADD_POST' as const, // 'ADD_POST' будет строковым литералом, а не просто строкой
-    postMessage
-});
-

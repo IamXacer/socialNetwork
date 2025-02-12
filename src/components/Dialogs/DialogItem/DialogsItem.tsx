@@ -1,8 +1,11 @@
 import React from "react";
 import styled from "styled-components";
 import { NavLink } from "react-router-dom";
-import {DialogItemType, MessagesType} from "../../../redux/state";
-
+/*import {DialogItemType, MessagesType} from "../../../redux/state";*/
+type DialogItemType = {
+    id: number;
+    name: string;
+};
 // Типы данных для диалогов
 type DialogsItemProps = {
     dialogItems: DialogItemType[];
@@ -100,8 +103,12 @@ export const DialogsItem = (props: DialogsItemProps) => {
         </div>
     );
 };
+type MessageType = {
+    id: number;
+    message: string;
+};
 export type MessagesPropsType = {
-    Messages: MessagesType[];
+    Messages: MessageType[];
 };
 
 const MessageContainer = styled.div`

@@ -1,3 +1,4 @@
+/*
 import React from "react";
 
 export type PostsType = {
@@ -16,12 +17,12 @@ export type DialogItemType = {
     name: string;
 };
 
-export type MessagesType = {
+ type MessagesType = {
     id: number;
     message: string;
 };
 
-export type StateType = {
+ type StateType = {
     profilePage: {
         posts: PostsType[];
     };
@@ -70,11 +71,12 @@ export const state: StateType = {
 };
 
 
-/*export let addDialogItem  = ( name:string) => {
+/!*export let addDialogItem  = ( name:string) => {
    const newDialogItem = {id: state.profilePage.posts.length + 1,name }
     state.dialogPage.dialogItems.push(newDialogItem)
-}*/
+}*!/
 export let addMessage = (message: string) => {
     const newMessage = { id: state.dialogPage.messages.length + 1, message };
     state.dialogPage.messages.push(newMessage);
 };
+*/
