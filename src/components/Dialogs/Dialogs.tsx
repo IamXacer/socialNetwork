@@ -1,59 +1,32 @@
 import React, {ChangeEvent, useReducer, useState} from "react";
 import styled from "styled-components";
-import { DialogsItem, Message, FriendsPhotoGrid } from "./DialogItem/DialogsItem";
-import { useSelector, useDispatch } from "react-redux"; // Импортируем useSelector и useDispatch
-/*import { StateType } from "../../redux/state"; // Тип состояния*/
-import {addDialogMessageAC, addNameAC, DialogsReducer, DialogsReducerType} from "../../redux/Dialogs-reducer";
-import {RootState} from "../../redux/redux-store"; // Экшены и редюсер
+import {DialogsItem, Message, FriendsPhotoGrid, DialogsState} from "./DialogItem/DialogsItem";
 
-export const Dialogs = () => {
-    const [name, setName] = useState("");
-    const [message, setMessage] = useState("");
-    const dispatch = useDispatch(); // Подключаем dispatch для отправки экшенов
+interface DialogsProps {
+    handleMessageChange: (e: ChangeEvent<HTMLTextAreaElement>) => void;
+    message: string;
+    name:string
+    handleAddMessage: () => void;
+    handleAddName: () => void;
+    handleTextChange: (e: ChangeEvent<HTMLTextAreaElement>) => void;
+    dialogsState: DialogsState
+}
 
-    // Получаем данные из Redux через useSelector, добавляем дефолтное значение
-    const dialogsState = useSelector((store: RootState) => store.dialogPage.dialogPage);
+export const Dialogs: React.FC<DialogsProps> = ({ handleMessageChange,
+                                                    message, handleAddMessage,
+                                                    handleAddName,name,
+                                                    handleTextChange,dialogsState}) => {
+
+
 
     const { dialogItems, messages, friends } = dialogsState;
 
-    const handleTextChange = (e: ChangeEvent<HTMLTextAreaElement>) => {
-        setName(e.currentTarget.value);
-    };
-    const dialogItemsList = Array.isArray(dialogItems) && dialogItems.length > 0 ? (
-        <DialogsItem dialogItems={dialogItems} />
-    ) : (
-        <p>No dialogs available</p>
-    );
 
-    const messagesList = Array.isArray(messages) && messages.length > 0 ? (
-        <Message Messages={messages} />
-    ) : (
-        <p>No messages available</p>
-    );
+    const dialogItemsList = <DialogsItem dialogItems={dialogItems} />
+    const messagesList = <Message Messages={messages} />
+    const friendsList = <FriendsPhotoGrid friends={friends} />
 
-    const friendsList = Array.isArray(friends) && friends.length > 0 ? (
-        <FriendsPhotoGrid friends={friends} />
-    ) : (
-        <p>No friends available</p>
-    );
 
-    const handleAddName = () => {
-        if (name.trim() !== "") {
-            dispatch(addNameAC(name)); // Отправляем экшен для добавления имени
-            setName("");
-        }
-    };
-
-    const handleAddMessage = () => {
-        if (message.trim() !== "") {
-            dispatch(addDialogMessageAC(message)); // Отправляем экшен для добавления сообщения
-            setMessage("");
-        }
-    };
-
-    const handleMessageChange = (e: ChangeEvent<HTMLTextAreaElement>) => {
-        setMessage(e.currentTarget.value);
-    };
 
     const RightSection = styled.div`
         display: flex;

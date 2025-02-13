@@ -1,7 +1,13 @@
 import React from "react";
 import styled from "styled-components";
 import { NavLink } from "react-router-dom";
-/*import {DialogItemType, MessagesType} from "../../../redux/state";*/
+
+export type DialogsState = {
+    dialogItems: DialogItemType[]; // Тип данных для списка диалогов
+    messages: MessageType[];       // Тип данных для списка сообщений
+    friends: Friend[];             // Тип данных для списка друзей
+};
+
 type DialogItemType = {
     id: number;
     name: string;
@@ -24,50 +30,6 @@ const DialogItem = styled.div`
   }
 `;
 
-const ActiveLink = styled(NavLink)`
-  color: whitesmoke;
-  margin-left: 40px;
-  text-decoration: none;
-
-  &.active {
-    color: gold;
-  }
-`;
-type Friend = {
-    src: string;
-    alt: string;
-};
-
-type FriendsPhotoGridProps = {
-    friends: Friend[];
-};
-
-const FriendPhotoGrid = styled.div`
-  display: grid;
-  grid-template-columns: repeat(3, 1fr);
-  gap: 8px;
-
-  @media (max-width: 768px) {
-    grid-template-columns: repeat(2, 1fr); /* Два столбца на планшетах */
-  }
-
-  @media (max-width: 480px) {
-    grid-template-columns: 1fr; /* Один столбец на мобильных устройствах */
-  }
-`;
-
-const FriendPhoto = styled.img`
-  width: 60px;
-  height: 60px;
-  border-radius: 50%;
-  object-fit: cover;
-`;
-const DialogsItemContainer = styled.div`
-    display: flex;
-    align-items: center; /* Выравнивание по вертикали */
-    justify-content: space-between; /* Расстояние между именем и сообщением */
-    margin-bottom: 10px; /* Отступ между диалогами */
-`;
 
 
 export const FriendsPhotoGrid = ({ friends }: FriendsPhotoGridProps) => {
@@ -145,4 +107,48 @@ const DialogName = styled.div`
     margin-left: 40px;
     text-decoration: none;
     flex: 1;
+`;
+const ActiveLink = styled(NavLink)`
+  color: whitesmoke;
+  margin-left: 40px;
+  text-decoration: none;
+
+  &.active {
+    color: gold;
+  }
+`;
+type Friend = {
+    src: string;
+    alt: string;
+};
+
+type FriendsPhotoGridProps = {
+    friends: Friend[];
+};
+
+const FriendPhotoGrid = styled.div`
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 8px;
+
+  @media (max-width: 768px) {
+    grid-template-columns: repeat(2, 1fr); /* Два столбца на планшетах */
+  }
+
+  @media (max-width: 480px) {
+    grid-template-columns: 1fr; /* Один столбец на мобильных устройствах */
+  }
+`;
+
+const FriendPhoto = styled.img`
+  width: 60px;
+  height: 60px;
+  border-radius: 50%;
+  object-fit: cover;
+`;
+const DialogsItemContainer = styled.div`
+    display: flex;
+    align-items: center; /* Выравнивание по вертикали */
+    justify-content: space-between; /* Расстояние между именем и сообщением */
+    margin-bottom: 10px; /* Отступ между диалогами */
 `;

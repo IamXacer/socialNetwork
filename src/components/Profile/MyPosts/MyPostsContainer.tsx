@@ -34,7 +34,13 @@ export const MyPostsContainer = () => {
 
     return (
         <div>
-         <MyPosts/>
+         <MyPosts postText={postText}
+                  handleTextChange={handleTextChange}
+                  handleAddPost={handleAddPost}
+         />
+            <div>
+                {postsElements}
+            </div>
         </div>
     );
 };
