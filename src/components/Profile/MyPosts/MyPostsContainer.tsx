@@ -1,46 +1,76 @@
-import React, { ChangeEvent, useReducer, useState } from "react";
-import s from './MyPosts.module.css';
-import { Profile } from "../Profile";
+import React, { ChangeEvent } from "react";
+import {useSelector, useDispatch, connect} from "react-redux"; // Импортируем useSelector и useDispatch
+import { addPostAC, updatePostTextAC } from "../../../redux/Profile-reducer"; // Импортируем экшены
+import {AppDispatch, RootState} from "../../../redux/redux-store"; // Импортируем RootState
 import { Post } from "./Post/Post";
-import { useSelector, useDispatch } from "react-redux"; // Импортируем useSelector и useDispatch
-import {addPostAC, ProfileReducerType} from "../../../redux/Profile-reducer";
-/*import { StateType } from "../../../redux/state";*/
-import {RootState, store} from "../../../redux/redux-store";
-import {MyPosts} from "./MyPosts"; // Импортируем тип для state
+import { MyPosts } from "./MyPosts";
 
-export const MyPostsContainer = () => {
-    // Используем useSelector для получения части состояния
+/*export const MyPostsContainer = () => {
+    // Получаем состояние из Redux
     const profileState = useSelector((store: RootState) => store.profilePage.profilePage);
     const dispatch = useDispatch();
 
-    const [postText, setPostText] = useState("");
+    const postsElements = profileState.posts.map(p => (
+        <Post message={p.message} initialLikeCount={p.initialLikeCount} key={p.id} />
+    ));
 
-
-    // Получаем список постов из состояния
-    const postsElements = profileState.posts.map(p => <Post message={p.message} initialLikeCount={p.initialLikeCount} key={p.id} />)
-
-
+    // Обработчик изменения текста
     const handleTextChange = (e: ChangeEvent<HTMLTextAreaElement>) => {
-        setPostText(e.currentTarget.value);
+        dispatch(updatePostTextAC(e.currentTarget.value)); // Отправляем экшен для обновления текста
     };
 
-
+    // Обработчик добавления поста
     const handleAddPost = () => {
-        if (postText.trim() !== '') {
-            dispatch(addPostAC(postText)); // отправляем экшен для добавления поста
-            setPostText(""); // очищаем текст
+        if (profileState.postText.trim() !== '') {
+            dispatch(addPostAC(profileState.postText)); // Отправляем экшен для добавления поста
+            dispatch(updatePostTextAC('')); // Очищаем текст после добавления поста
         }
     };
 
     return (
         <div>
-         <MyPosts postText={postText}
-                  handleTextChange={handleTextChange}
-                  handleAddPost={handleAddPost}
-         />
-            <div>
-                {postsElements}
-            </div>
+            <MyPosts
+                postText={profileState.postText} // Передаем текст из состояния Redux
+                handleTextChange={handleTextChange}
+                handleAddPost={handleAddPost}
+            />
+            <div>{postsElements}</div>
         </div>
     );
+};*/
+
+
+
+const mapStateToProps = (state: RootState) => {
+    return {
+        postText: state.profilePage.profilePage.postText, // Передаем text из состояния
+        posts: state.profilePage.profilePage.posts // При необходимости передаем список постов
+    };
 };
+
+// Тип для mapDispatchToProps
+type mapDispatchToPropsType = {
+    handleTextChange: (newText: string) => void;
+    handleAddPost: (postText: string) => void; // Мы теперь ожидаем, что эта функция получит postText
+};
+
+// mapDispatchToProps для отправки экшенов
+const mapDispatchToProps = (dispatch: AppDispatch): mapDispatchToPropsType => {
+    return {
+        handleTextChange: (text: string) => dispatch(updatePostTextAC(text)), // Обновляем текст
+        handleAddPost: (postText: string) => {
+            if (postText.trim() !== '') {
+                debugger
+                dispatch(addPostAC(postText));
+                debugger// Диспатчим экшен для добавления поста с настоящим текстом
+                dispatch(updatePostTextAC('')); // Очищаем текст после добавления
+            }
+        }
+    };
+};
+
+// Подключаем компонент MyPosts с переданными пропсами из Redux
+const MyPostsContainer =
+    connect(mapStateToProps, mapDispatchToProps)(MyPosts);
+
+export default MyPostsContainer;

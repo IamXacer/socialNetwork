@@ -1,7 +1,7 @@
 import React from "react";
 
 // Тип для поста
- type PostsType = {
+ export type PostsType = {
     id: number;
     message: string;
     initialLikeCount: number;
@@ -11,6 +11,7 @@ import React from "react";
  export type ProfileReducerType = {
     profilePage: {
         posts: PostsType[];
+        postText: string;
     };
 };
 
@@ -22,35 +23,55 @@ let initialState: ProfileReducerType = {
             { id: 2, message: "It's my project", initialLikeCount: 2 },
             { id: 3, message: "Hi", initialLikeCount: 5 },
         ],
+        postText: '', // Инициализация поля postText
     },
 };
+
 
 // Экшен-креатор для добавления поста
 export const addPostAC = (postMessage: string) => ({
     type: 'ADD_POST' as const, // Строковый литерал для type
     postMessage
 });
+export const updatePostTextAC = (text: string) => ({
+    type: 'UPDATE_POST_TEXT' as const,
+    text
+});
 
-// Тип экшена, который возвращает addPostAC
-type AddPostActionType = ReturnType<typeof addPostAC>;
+
+type ActionTypes =
+    ReturnType<typeof addPostAC>
+    |ReturnType<typeof updatePostTextAC>
 
 // Редюсер
-export const ProfileReducer = (state: ProfileReducerType = initialState, action: AddPostActionType): ProfileReducerType => {
+// Редюсер
+export const ProfileReducer = (state: ProfileReducerType = initialState, action: ActionTypes): ProfileReducerType => {
     switch (action.type) {
         case 'ADD_POST':
             debugger
             const newPost = {
-                id: state.profilePage.posts.length + 1,
-                message: action.postMessage,
-                initialLikeCount: 0
+                id:state.profilePage.posts[0].id,
+                message:action.postMessage,
+                initialLikeCount:0
             };
             return {
                 ...state,
+                profilePage:{
+                    posts:[...state.profilePage.posts,newPost],
+                    postText:''
+                }
+            }
+        case 'UPDATE_POST_TEXT':
+            return {
+                ...state,
                 profilePage: {
-                    posts: [...state.profilePage.posts, newPost] // Добавляем новый пост
+                    ...state.profilePage,
+                    postText: action.text // Обновляем состояние текста
                 }
             };
         default:
             return state;
     }
 };
+
+

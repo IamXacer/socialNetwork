@@ -12,9 +12,11 @@ export const DialogsContainer = () => {
     const [message, setMessage] = useState("");
     const dispatch = useDispatch();
 
- const handleTextChange = (e: ChangeEvent<HTMLTextAreaElement>) => {
+    const handleTextChange = (e: ChangeEvent<HTMLTextAreaElement>) => {
         setName(e.currentTarget.value);
     };
+
+
     const dialogsState = useSelector((store: RootState) => store.dialogPage.dialogPage);
     const { dialogItems, messages, friends } = dialogsState;
 
@@ -32,11 +34,9 @@ export const DialogsContainer = () => {
         }
     };
 
-
     const handleMessageChange = (e: ChangeEvent<HTMLTextAreaElement>) => {
         setMessage(e.currentTarget.value);
     };
-
 
     return (
         <Dialogs

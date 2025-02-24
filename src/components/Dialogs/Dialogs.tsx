@@ -1,25 +1,32 @@
 import React, {ChangeEvent, useReducer, useState} from "react";
 import styled from "styled-components";
 import {DialogsItem, Message, FriendsPhotoGrid, DialogsState} from "./DialogItem/DialogsItem";
+import { DialogPageType } from "../../redux/Dialogs-reducer";
 
-interface DialogsProps {
+export type DialogsProps = {
     handleMessageChange: (e: ChangeEvent<HTMLTextAreaElement>) => void;
     message: string;
-    name:string
-    handleAddMessage: () => void;
-    handleAddName: () => void;
+    name: string;
+    handleAddMessage: (message: string) => void; // Ожидаем, что функция принимает аргумент message
+    handleAddName: (name: string) => void; // Ожидаем, что функция принимает аргумент name
     handleTextChange: (e: ChangeEvent<HTMLTextAreaElement>) => void;
-    dialogsState: DialogsState
+    dialogsState: DialogPageType;
 }
 
-export const Dialogs: React.FC<DialogsProps> = ({ handleMessageChange,
-                                                    message, handleAddMessage,
-                                                    handleAddName,name,
-                                                    handleTextChange,dialogsState}) => {
+export const Dialogs: React.FC<DialogsProps> = ({
+                                                    handleMessageChange,
+                                                    message,
+                                                    handleAddMessage,
+                                                    handleAddName,
+                                                    name,
+                                                    handleTextChange,
+                                                    dialogsState
+                                                }) => {
 
 
 
     const { dialogItems, messages, friends } = dialogsState;
+
 
 
     const dialogItemsList = <DialogsItem dialogItems={dialogItems} />
@@ -46,17 +53,18 @@ export const Dialogs: React.FC<DialogsProps> = ({ handleMessageChange,
                 <TextAreaContainer>
                     <StyledTextArea
                         value={name}
-                        onChange={handleTextChange}
+                        onChange={handleTextChange} // Локальное обновление состояния для имени
                         placeholder="Enter your name..."
                     />
                     <StyledTextArea
                         value={message}
-                        onChange={handleMessageChange}
+                        onChange={handleMessageChange} // Локальное обновление состояния для сообщения
                         placeholder="Enter a message..."
                     />
                     <ButtonContainer>
-                        <StyledButton onClick={handleAddName}>Add Name</StyledButton>
-                        <StyledButton onClick={handleAddMessage}>Add Post</StyledButton>
+                        <StyledButton onClick={handleAddName.bind(null, name)}>Add Name</StyledButton>
+                        <StyledButton onClick={handleAddMessage.bind(null, message)}>Add Post</StyledButton>
+
                     </ButtonContainer>
                 </TextAreaContainer>
             </DialogsWrapper>

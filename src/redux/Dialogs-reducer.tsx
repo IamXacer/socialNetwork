@@ -1,4 +1,4 @@
-type DialogItemType = {
+export type DialogItemType = {
     id: number;
     name: string;
 };
@@ -10,13 +10,13 @@ export type MessageType = {
 };
 
 
-type FriendType = {
+export type FriendType = {
     src: string;
     alt: string;
 };
 
 
-type DialogPageType = {
+export type DialogPageType = {
     dialogItems: DialogItemType[];
     messages: MessageType[];
     friends: FriendType[];
@@ -81,17 +81,17 @@ export const DialogsReducer = (
                 },
             };
         case 'ADD_MESSAGE':
-            const newMessage = {
-                id: 6,
-                message: action.postMessage,
-            };
-            return {
-                ...state,
-                dialogPage: {
-                    ...state.dialogPage,
-                    messages: [...state.dialogPage.messages, newMessage],
-                },
-            };
+     const newMessage = {
+         id: 6,
+         message:action.postMessage
+     }
+     return {
+
+         ...state,dialogPage:{...state.dialogPage,
+         messages:[...state.dialogPage.messages,newMessage],
+         }
+     }
+
         default:
             return state;
     }

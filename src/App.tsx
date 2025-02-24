@@ -7,8 +7,10 @@ import { MyPosts } from "./components/Profile/MyPosts/MyPosts";
 import { BrowserRouter, Route, Routes } from "react-router-dom";
 import { Provider } from 'react-redux'; // Импортируй Provider
 import { store } from './redux/redux-store';
-import {MyPostsContainer} from "./components/Profile/MyPosts/MyPostsContainer";
-import {DialogsContainer} from "./components/Dialogs/DialogsContainer"; // Импортируй store из Redux
+/*import {MyPostsContainer} from "./components/Profile/MyPosts/MyPostsContainer";*/
+
+import {DialogsContainer} from "./components/Dialogs/DialogsContainer";
+import MyPostsContainer from "./components/Profile/MyPosts/MyPostsContainer"; // Импортируй store из Redux
 
 type AppProps = {
 
@@ -25,7 +27,7 @@ function App() {
                     <div className='profileWrapperContent'>
                         <Routes>
                             <Route path="/profile" element={
-                             /*   <MyPosts />*/
+
                                 <MyPostsContainer/>
                             } />
                             <Route path="/dialog/*" element={<DialogsContainer />} />
