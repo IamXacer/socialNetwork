@@ -10,7 +10,9 @@ import { store } from './redux/redux-store';
 /*import {MyPostsContainer} from "./components/Profile/MyPosts/MyPostsContainer";*/
 
 import {DialogsContainer} from "./components/Dialogs/DialogsContainer";
-import MyPostsContainer from "./components/Profile/MyPosts/MyPostsContainer"; // Импортируй store из Redux
+import MyPostsContainer from "./components/Profile/MyPosts/MyPostsContainer";
+import {Users} from "./components/Users/Users";
+import UsersContainer from "./components/Users/UsersContainer"; // Импортируй store из Redux
 
 type AppProps = {
 
@@ -27,10 +29,10 @@ function App() {
                     <div className='profileWrapperContent'>
                         <Routes>
                             <Route path="/profile" element={
-
                                 <MyPostsContainer/>
                             } />
                             <Route path="/dialog/*" element={<DialogsContainer />} />
+                            <Route path="/users/*" element={<UsersContainer />} />
                         </Routes>
                     </div>
                 </div>

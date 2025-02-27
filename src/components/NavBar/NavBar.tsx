@@ -35,6 +35,9 @@ export const NavBar = () => {
             <StyledNavLink to="/dialog" className={({ isActive }) => (isActive ? "active" : "")}>
                 Friends
             </StyledNavLink>
+            <StyledNavLink to="/users" className={({ isActive }) => (isActive ? "active" : "")}>
+                Users
+            </StyledNavLink>
             <StyledNavLink to="/news" className={({ isActive }) => (isActive ? "active" : "")}>
                 News
             </StyledNavLink>
