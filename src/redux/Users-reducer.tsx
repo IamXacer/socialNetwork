@@ -25,33 +25,29 @@ type UserLocation = {
 // Начальное состояние
 let initialState: InitialStateUserType = {
     users: [
-        {
-            id: '1', followed: false, name: "Alex", status: 'I am a Boss', location: {city: 'Neu-Ulm', country: 'Deutschland'},
-            photos: {
+     /*   {
+            id: '1', followed: false, name: "Alex", status: 'I am a Boss', location: {city: 'Neu-Ulm', country: 'Deutschland'}, photos: {
                 small: "",
                 large: ""
             }
         },
-        {id: '2', followed: true, name: "Daria", status: 'I am a Boss', location: {city: 'Neu-Ulm', country: 'Deutschland'},
-            photos: {
-                small: "",
-                large: ""
-            }
-        },
-        {
-           id: '3', followed: false, name: "Dmitriy", status: 'I am a Boss', location: {city: 'Minsk', country: 'Belarus'},
-            photos: {
+        {id: '2', followed: true, name: "Daria", status: 'I am a Boss', location: {city: 'Neu-Ulm', country: 'Deutschland'}, photos: {
                 small: "",
                 large: ""
             }
         },
         {
-            id: '4', followed: true, name: "Andrey", status: 'Hallo', location: {city: 'Kiev', country: 'Ukrainia'},
-            photos: {
+           id: '3', followed: false, name: "Dmitriy", status: 'I am a Boss', location: {city: 'Minsk', country: 'Belarus'}, photos: {
                 small: "",
                 large: ""
             }
         },
+        {
+            id: '4', followed: true, name: "Andrey", status: 'Hallo', location: {city: 'Kiev', country: 'Ukrainia'}, photos: {
+                small: "",
+                large: ""
+            }
+        },*/
 
         ]
 

@@ -2,6 +2,7 @@ import React from 'react';
 import {UsersType} from "../../redux/Users-reducer";
 import userPhoto from '../../assets/img/photo.png'
 import s from './Users.module.css'
+import axios from "axios";
 
 
 type UsersPropsType = {
@@ -11,6 +12,13 @@ type UsersPropsType = {
     setUsers:(users:UsersType[])=>void;
 }
 export const Users: React.FC<UsersPropsType> = ({users, follow, unfollow,setUsers}) => {
+    if(users.length === 0){
+        axios.get('https://social-network.samuraijs.com/api/1.0/users').then((response) => {
+            debugger
+            setUsers(response.data.items)
+        })
+
+    }
     return (
         <div>
             {users.map(u => <div key={u.id}>
@@ -37,10 +45,10 @@ export const Users: React.FC<UsersPropsType> = ({users, follow, unfollow,setUser
                     </span>
                     <span>
                         <div>
-                            {u.location.country}
+                            {"u.location.country"}
                         </div>
                         <div>
-                        {u.location.city}
+                        {"u.location.city"}
                     </div>
                     </span>
                 </span>
