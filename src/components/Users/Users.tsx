@@ -5,6 +5,7 @@ import s from './Users.module.css'
 import axios from "axios";
 
 
+
 type UsersPropsType = {
     users: UsersType[];
     follow: (userId: string) => void;

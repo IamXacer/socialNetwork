@@ -57,7 +57,7 @@ export const ProfileReducer = (state: ProfileReducerType = initialState, action:
             return {
                 ...state,
                 profilePage:{
-                    posts:[...state.profilePage.posts,newPost],
+                        posts:[...state.profilePage.posts,newPost],
                     postText:''
                 }
             }

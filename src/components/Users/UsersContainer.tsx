@@ -2,7 +2,7 @@ import React from 'react';
 import {connect} from "react-redux";
 import {Users} from "./Users";
 import {AppDispatch, RootState} from "../../redux/redux-store";
-import {FollowAC, setUsersAC, unFollowAC, UsersType} from "../../redux/Users-reducer";
+import {follow, setUsers, unfollow, UsersType} from "../../redux/Users-reducer";
 import MyPostsContainer from "../Profile/MyPosts/MyPostsContainer";
 
 type mapStateToPropsType = {
@@ -19,19 +19,21 @@ type mapDispatchToPropsType = {
     unfollow: (userId: string) => void;
     setUsers:(users:UsersType[])=>void;// Мы теперь ожидаем, что эта функция получит postText
 };
-const mapDispatchToProps = (dispatch:AppDispatch):mapDispatchToPropsType => {
- return{
-     follow:(userId:string) => {
-         dispatch(FollowAC(userId))
-     },
-     unfollow:(userId:string) => {
-         dispatch(unFollowAC(userId))
-     },
-     setUsers:(users:UsersType[]) => {
-         dispatch(setUsersAC(users))
-     }
- }
-}
+const mapDispatchToProps = (dispatch: AppDispatch): mapDispatchToPropsType => {
+    return {
+        follow: (userId: string) => {
+            console.log('followAc')
+            dispatch(follow(userId)); // Используем экшн-креатор из слайса
+        },
+        unfollow: (userId: string) => {
+            console.log('unfollowAc')
+            dispatch(unfollow(userId)); // Используем экшн-креатор из слайса
+        },
+        setUsers: (users: UsersType[]) => {
+            dispatch(setUsers(users)); // Используем экшн-креатор из слайса
+        },
+    };
+};
 
 const UsersContainer = connect (mapStateToProps,mapDispatchToProps)(Users);
 export default UsersContainer;

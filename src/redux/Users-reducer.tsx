@@ -1,92 +1,60 @@
-import React from "react";
+import { createSlice, PayloadAction } from '@reduxjs/toolkit';
 
-
+// Типы
 export type UsersType = {
-    id: string,
-    followed: boolean
-    name: string
-    status: string
-    photoUrl?: string
-    location: UserLocation
+    id: string;
+    followed: boolean;
+    name: string;
+    status: string;
+    photoUrl?: string;
+    location: UserLocation;
     photos: {
-        small: string,
-        large: string
-    },
-}
+        small: string;
+        large: string;
+    };
+};
+
 export type InitialStateUserType = {
-    users: UsersType[]
-}
+    users: UsersType[];
+};
 
 type UserLocation = {
-    city: string
-    country: string
-}
+    city: string;
+    country: string;
+};
 
 // Начальное состояние
-let initialState: InitialStateUserType = {
-    users: [
-     /*   {
-            id: '1', followed: false, name: "Alex", status: 'I am a Boss', location: {city: 'Neu-Ulm', country: 'Deutschland'}, photos: {
-                small: "",
-                large: ""
-            }
-        },
-        {id: '2', followed: true, name: "Daria", status: 'I am a Boss', location: {city: 'Neu-Ulm', country: 'Deutschland'}, photos: {
-                small: "",
-                large: ""
-            }
-        },
-        {
-           id: '3', followed: false, name: "Dmitriy", status: 'I am a Boss', location: {city: 'Minsk', country: 'Belarus'}, photos: {
-                small: "",
-                large: ""
-            }
-        },
-        {
-            id: '4', followed: true, name: "Andrey", status: 'Hallo', location: {city: 'Kiev', country: 'Ukrainia'}, photos: {
-                small: "",
-                large: ""
-            }
-        },*/
-
-        ]
-
+const initialState: InitialStateUserType = {
+    users: [],
 };
 
-type ActionTypes =
-    ReturnType<typeof FollowAC>
-    |ReturnType<typeof unFollowAC>
-    |ReturnType<typeof setUsersAC>
+// Создаем слайс
+const usersSlice = createSlice({
+    name: 'users',
+    initialState,
+    reducers: {
+        follow(state, action: PayloadAction<string>) {
+            const user = state.users.find(u => u.id === action.payload);
+            if (user) {
+                console.log('followSlice', action.payload);
+                user.followed = false;
+            }
+        },
+        unfollow(state, action: PayloadAction<string>) {
+            const user = state.users.find(u => u.id === action.payload);
+            if (user) {
+                console.log('unfollowSlice', action.payload);
+                user.followed = true;
+            }
+        },
+        setUsers(state, action: PayloadAction<UsersType[]>) {
+            state.users = action.payload;
+        },
+    },
+});
 
-export const FollowAC = (userId:string) => {
-    return {type: 'FOLLOW', userId} as const
-}
-export const unFollowAC = (userId:string) => {
-    return {type: 'UNFOLLOW', userId} as const
-}
-export const setUsersAC = (users: UsersType[]) => {
-    return {type: 'SET_USERS', users} as const
+// Экшн-креаторы
+export const { follow, unfollow, setUsers } = usersSlice.actions;
 
-}
 // Редюсер
-// Редюсер
-export const UsersReducer = (state:InitialStateUserType = initialState, action: ActionTypes):InitialStateUserType  => {
-    switch (action.type) {
-        case "FOLLOW":
-            return {
-                ...state,
-                users: state.users.map(u => u.id === action.userId ? { ...u, followed: false } : u)
-            };
-            case 'UNFOLLOW':
-            return {
-                ...state,
-                users: state.users.map(u => u.id === action.userId ? { ...u, followed: true } : u)
-            };
-        case "SET_USERS":
-            return { ...state, users: action.users };
-        default:
-            return state;
-    }
-};
-
-
+export default usersSlice.reducer;
