@@ -15,6 +15,14 @@
     padding: 2px;
     color: #8a4141;
 }
+/*.selectedPage {
+    border: 1px solid black;
+    font-weight: bold;
+    color: #fff; !* Сделать цвет текста белым *!
+    background-color: #4CAF50; !* Сделать фоновый цвет для выделенной страницы *!
+    padding: 5px 10px; !* Немного увеличим отступы для лучшего восприятия *!
+    cursor: pointer; !* Курсор как указатель *!
+}*/
 
 .backgroundIMG {
 
@@ -49,7 +57,7 @@
 .button:hover{
     text-decoration: none;
 }
-.selectedPage:focus {
+.selectedPage {
     font-weight: bold;
     vertical-align: middle;
     background-color: #8cc568;
