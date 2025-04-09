@@ -19,6 +19,7 @@ export type InitialStateUserType = {
   pageSize: number;
   totalCount: number;
   currentPaga: number;
+  isFetching: boolean;
 };
 
 type UserLocation = {
@@ -32,6 +33,7 @@ const initialState: InitialStateUserType = {
   pageSize: 12,
   totalCount: 1,
   currentPaga: 4,
+  isFetching: false,
 };
 
 // Создаем слайс
@@ -60,12 +62,21 @@ const usersSlice = createSlice({
     setTotalUsersCount(state, action: PayloadAction<number>) {
       return { ...state, totalCount: action.payload };
     },
+    togleIsFetching(state, action: PayloadAction<boolean>) {
+      return { ...state, isFetching: action.payload };
+    },
   },
 });
 
 // Экшн-креаторы
-export const { follow, unfollow, setUsers, setCurrenPage, setTotalUsersCount } =
-  usersSlice.actions;
+export const {
+  follow,
+  unfollow,
+  setUsers,
+  setCurrenPage,
+  setTotalUsersCount,
+  togleIsFetching,
+} = usersSlice.actions;
 
 // Редюсер
 export default usersSlice.reducer;
