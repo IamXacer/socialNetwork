@@ -1,3 +1,5 @@
+import React from "react";
+import axios from "axios";
 import { connect } from "react-redux";
 import { AppDispatch, RootState } from "../../redux/redux-store";
 import {
@@ -9,9 +11,6 @@ import {
   unfollow,
   UsersType,
 } from "../../redux/Users-reducer";
-
-import React from "react";
-import axios from "axios";
 import { Users } from "./Users";
 import { Preloader } from "../common/Prealoader/Preloader";
 
@@ -22,6 +21,7 @@ type mapStateToPropsType = {
   currentPaga: number;
   isFetching: boolean;
 };
+
 type UsersPropsType = {
   users: UsersType[];
   follow: (userId: string) => void;
@@ -33,7 +33,7 @@ type UsersPropsType = {
   totalCount: number;
   currentPaga: number;
   isFetching: boolean;
-  togleIsFetching: (isFetching: boolean) => void; // Добавили сюда
+  togleIsFetching: (isFetching: boolean) => void;
 };
 
 export class UsersAPIComponent extends React.Component<UsersPropsType, any> {
@@ -45,31 +45,28 @@ export class UsersAPIComponent extends React.Component<UsersPropsType, any> {
       )
       .then((response) => {
         this.props.togleIsFetching(false);
-        debugger;
         this.props.setUsers(response.data.items);
         this.props.setTotalUsersCount(response.data.totalCount);
       });
   }
-  onPageChange = (currentPaga: number) => {
-    this.props.setCurrenPage(currentPaga);
+
+  onPageChange = (page: number) => {
+    // Обновляем currentPage в Redux
+    this.props.setCurrenPage(page);
     this.props.togleIsFetching(true);
+
+    // Запрашиваем данные для выбранной страницы
     axios
       .get(
-        `https://social-network.samuraijs.com/api/1.0/users?page=${this.props.currentPaga}&count=${this.props.pageSize}`,
+        `https://social-network.samuraijs.com/api/1.0/users?page=${page}&count=${this.props.pageSize}`,
       )
       .then((response) => {
         this.props.togleIsFetching(false);
-        debugger;
         this.props.setUsers(response.data.items);
       });
   };
 
   render() {
-    let pageCount = Math.ceil(this.props.totalCount / this.props.pageSize);
-    let pages = [];
-    for (let i = 1; i <= pageCount; i++) {
-      pages.push(i);
-    }
     return (
       <>
         {this.props.isFetching ? (
@@ -79,12 +76,9 @@ export class UsersAPIComponent extends React.Component<UsersPropsType, any> {
             users={this.props.users}
             follow={this.props.follow}
             unfollow={this.props.unfollow}
-            setUsers={this.props.setUsers}
-            setCurrenPage={this.props.setCurrenPage}
-            setTotalUsersCount={this.props.setTotalUsersCount}
             pageSize={this.props.pageSize}
             totalCount={this.props.totalCount}
-            currentPaga={this.props.currentPaga}
+            currentPage={this.props.currentPaga} // Передаем currentPage сюда
             onPageChange={this.onPageChange}
           />
         )}
@@ -92,51 +86,22 @@ export class UsersAPIComponent extends React.Component<UsersPropsType, any> {
     );
   }
 }
-
 const mapStateToProps = (state: RootState): mapStateToPropsType => {
   return {
     users: state.usersPage.users,
     pageSize: state.usersPage.pageSize,
     totalCount: state.usersPage.totalCount,
-    currentPaga: state.usersPage.currentPaga,
+    currentPaga: state.usersPage.currentPaga, // Обновляем currentPage из Redux
     isFetching: state.usersPage.isFetching,
   };
 };
-type mapDispatchToPropsType = {
-  follow: (userId: string) => void;
-  unfollow: (userId: string) => void;
-  setUsers: (users: UsersType[]) => void; // Мы теперь ожидаем, что эта функция получит postText
-  setCurrenPage: (page: number) => void;
-  setTotalUsersCount: (totalCount: number) => void;
-  togleIsFetching: (isFetching: boolean) => void;
-};
-const mapDispatchToProps = (dispatch: AppDispatch): mapDispatchToPropsType => {
-  return {
-    follow: (userId: string) => {
-      console.log("followAc");
-      dispatch(follow(userId)); // Используем экшн-креатор из слайса
-    },
-    unfollow: (userId: string) => {
-      console.log("unfollowAc");
-      dispatch(unfollow(userId)); // Используем экшн-креатор из слайса
-    },
-    setUsers: (users: UsersType[]) => {
-      dispatch(setUsers(users)); // Используем экшн-креатор из слайса
-    },
-    setCurrenPage: (page: number) => {
-      dispatch(setCurrenPage(page));
-    },
-    setTotalUsersCount: (totalCount: number) => {
-      dispatch(setTotalUsersCount(totalCount));
-    },
-    togleIsFetching: (isFetching: boolean) => {
-      dispatch(togleIsFetching(isFetching));
-    },
-  };
-};
 
-const UsersContainer = connect(
-  mapStateToProps,
-  mapDispatchToProps,
-)(UsersAPIComponent);
+export const UsersContainer = connect(mapStateToProps, {
+  follow,
+  unfollow,
+  setUsers,
+  setCurrenPage,
+  setTotalUsersCount,
+  togleIsFetching,
+})(UsersAPIComponent);
 export default UsersContainer;

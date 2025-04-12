@@ -57,7 +57,7 @@ const usersSlice = createSlice({
       state.users = action.payload;
     },
     setCurrenPage(state, action: PayloadAction<number>) {
-      state.currentPaga = action.payload;
+      state.currentPaga = action.payload; // Просто обновляем состояние с текущей страницей
     },
     setTotalUsersCount(state, action: PayloadAction<number>) {
       return { ...state, totalCount: action.payload };
