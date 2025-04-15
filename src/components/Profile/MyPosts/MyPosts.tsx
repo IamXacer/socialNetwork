@@ -21,7 +21,6 @@ export const MyPosts: React.FC<MyPostsType> = ({
   handleTextChange,
   handleAddPost,
   profile,
-  profilePage,
 }) => {
   const profileState = useSelector(
     (store: RootState) => store.profilePage.profilePage,

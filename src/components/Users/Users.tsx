@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import s from "./Users.module.css";
 import userPhoto from "../../assets/img/photo.png";
 import { UsersType } from "../../redux/Users-reducer";
@@ -28,10 +28,17 @@ const Paginator: React.FC<{
 
   const portionSize = 10; // Количество страниц в порции
   const portionCount = Math.ceil(pagesCount / portionSize);
-  const [portionNumber, setPortionNumber] = useState(1);
+  const [portionNumber, setPortionNumber] = useState(
+    Math.floor((currentPage - 1) / portionSize) + 1,
+  );
 
   const leftPortionPageNumber = (portionNumber - 1) * portionSize + 1;
   const rightPortionPageNumber = portionNumber * portionSize;
+
+  // Обновляем portionNumber, когда currentPage меняется
+  useEffect(() => {
+    setPortionNumber(Math.floor((currentPage - 1) / portionSize) + 1);
+  }, [currentPage]);
 
   return (
     <div className={s.message}>

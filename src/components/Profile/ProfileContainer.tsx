@@ -3,14 +3,16 @@ import styled from "styled-components";
 import MyPostsContainer from "./MyPosts/MyPostsContainer";
 import axios from "axios";
 import { RootState } from "../../redux/redux-store";
+
 import {
   type initStateType,
   type ProfileType,
   setUserProfile,
-} from "../../redux/Profile-reducer"; // Импортируйте экшен
+} from "../../redux/Profile-reducer";
 import { connect } from "react-redux";
 import { Preloader } from "../common/Prealoader/Preloader";
 import { togleIsFetching, UsersType } from "../../redux/Users-reducer";
+import withRouter from "../utils/withRouter";
 
 // Стили для компонента профиля
 const ProfileContaine = styled.div`
@@ -43,9 +45,14 @@ const ImageWrapper = styled.div`
 
 class ProfileContainer extends React.Component<any, initStateType> {
   componentDidMount() {
+    // Получаем параметр profileId из маршрута
+    let userId = this.props.router.params.userId;
+    if (!userId) {
+      userId = 2;
+    }
     this.props.togleIsFetching(true);
     axios
-      .get(`https://social-network.samuraijs.com/api/1.0/profile/2`)
+      .get(`https://social-network.samuraijs.com/api/1.0/profile/` + userId)
       .then((response) => {
         this.props.togleIsFetching(false);
         this.props.setUserProfile(response.data); // Обновление состояния профиля
@@ -67,8 +74,9 @@ class ProfileContainer extends React.Component<any, initStateType> {
     return <MyPostsContainer {...this.props} profile={this.props.profile} />;
   }
 }
+
 export type mapStateToPropsType = {
-  profile: any;
+  profile: ProfileType | null;
 };
 
 // mapStateToProps: если нужно подключить состояние
@@ -84,4 +92,10 @@ const mapDispatchToProps = {
   togleIsFetching, // Теперь экшен доступен для передачи через пропсы
 };
 
-export default connect(mapStateToProps, mapDispatchToProps)(ProfileContainer);
+// Применяем обёртку с маршрутизатором
+let WitchUrlDataContainerComponent = withRouter(ProfileContainer);
+
+export default connect(
+  mapStateToProps,
+  mapDispatchToProps,
+)(WitchUrlDataContainerComponent);

@@ -51,7 +51,7 @@ let initialState: ProfileReducerType = {
   },
   profile: {} as ProfileType, // Изначально профиль отсутствует
   profileUpdateStatus: false,
-  status: "", // Статус профиля
+  status: "", // Статус профиляyarn add react-router-dom
 };
 
 // Экшен-креаторы
