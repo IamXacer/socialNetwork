@@ -30,6 +30,7 @@ const authSlice = createSlice({
       return {
         ...state,
         ...action.payload,
+        isAuth: true,
       };
     },
   },
