@@ -23,19 +23,26 @@ const LoginLink = styled.a`
 
 type HeaderProps = {
   isAuth: boolean;
+  login: string;
 };
 
-export const Header: React.FC<HeaderProps> = () => {
+export const Header = (props: HeaderProps) => {
   return (
     <HeaderContainer>
       <Logo src="https://dynamic.brandcrowd.com/asset/logo/a2914386-9b94-4a31-96eb-c5ff9fdfe1b9/insta-square?v=637716019321130000" />
       <LoginBlock>
         <div>
           <span></span>
-          <button>Log out</button> {/* Используем logout */}
+          {props.isAuth ? (
+            // Если пользователь авторизован, показываем логин
+            <span>{props.login}</span>
+          ) : (
+            // Если не авторизован, показываем кнопку для входа
+            <LoginLink href="#">login</LoginLink>
+          )}
+          {props.isAuth && <button>Log out</button>}{" "}
+          {/* Кнопка "Log out" только если авторизован */}
         </div>
-
-        <LoginLink href="#">Login</LoginLink>
       </LoginBlock>
     </HeaderContainer>
   );

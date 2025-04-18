@@ -12,7 +12,7 @@ type MyPostsType = {
   posts: PostsType[];
   handleTextChange: (newText: string) => void;
   handleAddPost: (postText: string) => void;
-  profile: any;
+  profile: ProfileType;
   profilePage?: unknown;
 };
 
@@ -25,13 +25,19 @@ export const MyPosts: React.FC<MyPostsType> = ({
   const profileState = useSelector(
     (store: RootState) => store.profilePage.profilePage,
   );
-  const postsElements = profileState.posts.map((p) => (
-    <Post
-      message={p.message}
-      initialLikeCount={p.initialLikeCount}
-      key={p.id}
-    />
-  ));
+  const postsElements = profileState.posts.map(
+    (p: {
+      message: string;
+      initialLikeCount: number;
+      id: React.Key | null | undefined;
+    }) => (
+      <Post
+        message={p.message}
+        initialLikeCount={p.initialLikeCount}
+        key={p.id}
+      />
+    ),
+  );
   return (
     <div>
       <div className={s.profile}>

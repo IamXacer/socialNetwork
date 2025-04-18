@@ -1,26 +1,35 @@
 import React, { useEffect, useState } from "react";
 import s from "./Users.module.css";
 import userPhoto from "../../assets/img/photo.png";
-import { UsersType } from "../../redux/Users-reducer";
+import {
+  FollowAC,
+  ToggleFeathingProherssAC,
+  ufollowAC,
+  UsersType,
+} from "../../redux/Users-reducer";
 import { NavLink } from "react-router-dom";
+import axios from "axios";
+import { usersAPI } from "../../api/api";
 
 type UsersPropsType = {
   users: UsersType[];
-  follow: (userId: string) => void;
-  unfollow: (userId: string) => void;
+  FollowAC: (userId: number) => void;
+  ufollowAC: (userId: number) => void;
+  ToggleFeathingProherssAC: (isFetching: boolean) => void;
   onPageChange: (page: number) => void;
-  totalCount: number;
+  totalUserCount: number;
   pageSize: number;
-  currentPage: number;
+  currenPage: number;
+  followingInProgress: number[];
 };
 
 const Paginator: React.FC<{
-  totalCount: number;
+  totalUserCount: number;
   pageSize: number;
-  currentPage: number;
+  currenPage: number;
   onPageChange: (page: number) => void;
-}> = ({ totalCount, pageSize, currentPage, onPageChange }) => {
-  const pagesCount = Math.ceil(totalCount / pageSize);
+}> = ({ totalUserCount, pageSize, currenPage, onPageChange }) => {
+  const pagesCount = Math.ceil(totalUserCount / pageSize);
   const pages: number[] = [];
   for (let i = 1; i <= pagesCount; i++) {
     pages.push(i);
@@ -29,7 +38,7 @@ const Paginator: React.FC<{
   const portionSize = 10; // Количество страниц в порции
   const portionCount = Math.ceil(pagesCount / portionSize);
   const [portionNumber, setPortionNumber] = useState(
-    Math.floor((currentPage - 1) / portionSize) + 1,
+    Math.floor((currenPage - 1) / portionSize) + 1,
   );
 
   const leftPortionPageNumber = (portionNumber - 1) * portionSize + 1;
@@ -37,8 +46,8 @@ const Paginator: React.FC<{
 
   // Обновляем portionNumber, когда currentPage меняется
   useEffect(() => {
-    setPortionNumber(Math.floor((currentPage - 1) / portionSize) + 1);
-  }, [currentPage]);
+    setPortionNumber(Math.floor((currenPage - 1) / portionSize) + 1);
+  }, [currenPage]);
 
   return (
     <div className={s.message}>
@@ -59,7 +68,7 @@ const Paginator: React.FC<{
           <span
             key={p}
             onClick={() => onPageChange(p)} // При клике на страницу обновляем currentPage
-            className={currentPage === p ? s.selectedPage : ""}
+            className={currenPage === p ? s.selectedPage : ""}
           >
             <li className={s.PageStyle}>{p}</li>
           </span>
@@ -78,20 +87,45 @@ const Paginator: React.FC<{
 };
 
 export const Users: React.FC<UsersPropsType> = ({
-  totalCount,
+  totalUserCount,
   pageSize,
-  currentPage,
+  currenPage,
   users,
-  follow,
-  unfollow,
+  FollowAC,
+  ufollowAC,
   onPageChange,
+  ToggleFeathingProherssAC,
+  followingInProgress,
 }) => {
+  const [isFollowingInProgress, setIsFollowingInProgress] = useState<number[]>(
+    [],
+  );
+
+  const handleFollowClick = (userId: number) => {
+    setIsFollowingInProgress((prev) => [...prev, userId]); // Блокируем кнопку
+    usersAPI.follow(userId).then((res) => {
+      if (res.data.resultCode === 0) {
+        FollowAC(userId);
+      }
+      setIsFollowingInProgress((prev) => prev.filter((id) => id !== userId)); // Разблокируем кнопку
+    });
+  };
+
+  const handleUnfollowClick = (userId: number) => {
+    setIsFollowingInProgress((prev) => [...prev, userId]); // Блокируем кнопку
+    usersAPI.unfollow(userId).then((res) => {
+      if (res.data.resultCode === 0) {
+        ufollowAC(userId);
+      }
+      setIsFollowingInProgress((prev) => prev.filter((id) => id !== userId)); // Разблокируем кнопку
+    });
+  };
   return (
     <div>
       <Paginator
-        totalCount={totalCount}
+        totalUserCount={totalUserCount}
         pageSize={pageSize}
-        currentPage={currentPage}
+        currenPage={currenPage}
         onPageChange={onPageChange}
       />
 
@@ -108,21 +142,22 @@ export const Users: React.FC<UsersPropsType> = ({
               </NavLink>
             </div>
             <div>
+              {" "}
               {u.followed ? (
                 <button
-                  onClick={() => {
-                    follow(u.id);
-                  }}
+                  disabled={isFollowingInProgress.includes(u.id)}
+                  className={s.button}
+                  onClick={() => handleUnfollowClick(u.id)}
                 >
-                  Follow
+                  Unfollow
                 </button>
               ) : (
                 <button
-                  onClick={() => {
-                    unfollow(u.id);
-                  }}
+                  disabled={isFollowingInProgress.includes(u.id)}
+                  className={s.button}
+                  onClick={() => handleFollowClick(u.id)}
                 >
-                  UnFollow
+                  Follow
                 </button>
               )}
             </div>

@@ -11,7 +11,7 @@ import {
 } from "../../redux/Profile-reducer";
 import { connect } from "react-redux";
 import { Preloader } from "../common/Prealoader/Preloader";
-import { togleIsFetching, UsersType } from "../../redux/Users-reducer";
+import { ToggleFeathingAC, UsersType } from "../../redux/Users-reducer";
 import withRouter from "../utils/withRouter";
 
 // Стили для компонента профиля
@@ -50,11 +50,11 @@ class ProfileContainer extends React.Component<any, initStateType> {
     if (!userId) {
       userId = 2;
     }
-    this.props.togleIsFetching(true);
+    this.props.ToggleFeathingAC(true);
     axios
       .get(`https://social-network.samuraijs.com/api/1.0/profile/` + userId)
       .then((response) => {
-        this.props.togleIsFetching(false);
+        this.props.ToggleFeathingAC(false);
         this.props.setUserProfile(response.data); // Обновление состояния профиля
       })
       .catch((error) => {
@@ -89,7 +89,7 @@ const mapStateToProps = (state: RootState): mapStateToPropsType => {
 // mapDispatchToProps: добавляем экшен для dispatch
 const mapDispatchToProps = {
   setUserProfile,
-  togleIsFetching, // Теперь экшен доступен для передачи через пропсы
+  ToggleFeathingAC, // Теперь экшен доступен для передачи через пропсы
 };
 
 // Применяем обёртку с маршрутизатором

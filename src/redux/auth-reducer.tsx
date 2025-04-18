@@ -1,42 +1,36 @@
 import { createSlice, PayloadAction } from "@reduxjs/toolkit";
 
 // Типы
-export type AuthStateType = {
-  userId: string | null;
-  email: string | null;
-  login: string | null;
+export type InitialStateType = {
+  userId: null;
+  email: null;
+  login: any;
   isAuth: boolean;
-  logout: null;
-  captchaUrl: null;
 };
-
-// Инициализация состояния с типами, которые могут быть null
-export let initialState: AuthStateType = {
-  userId: null, // Устанавливаем null вместо пустой строки
+let initialState = {
+  userId: null,
   email: null,
   login: null,
-  isAuth: false,
-  logout: null,
-  captchaUrl: null,
+  isAuth: true,
 };
+export type ActionTypes = ReturnType<typeof setUserAuthDataAC>;
 
-// Создаем слайс
-const authSlice = createSlice({
-  name: "users",
-  initialState,
-  reducers: {
-    authUser(state, action: PayloadAction<AuthStateType>) {
-      // Используем spread-оператор для обновления всех полей
+export const authReducer = (
+  state: InitialStateType = initialState,
+  action: ActionTypes,
+): InitialStateType => {
+  switch (action.type) {
+    case "SET_USER_DATA":
+      debugger;
       return {
         ...state,
-        ...action.payload,
-        isAuth: true,
+        ...action.data,
       };
-    },
-  },
-});
+    default:
+      return state;
+  }
+};
 
-export const { authUser } = authSlice.actions;
-
-// Редюсер
-export default authSlice.reducer;
+export const setUserAuthDataAC = (userId: null, email: null, login: null) => {
+  return { type: "SET_USER_DATA", data: { userId, email, login } } as const;
+};
