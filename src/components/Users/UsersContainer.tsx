@@ -4,6 +4,7 @@ import { connect } from "react-redux";
 import { AppDispatch, RootState } from "../../redux/redux-store";
 import {
   FollowAC,
+  getUsersTC,
   setCurrentAC,
   setUsersAC,
   setUsersTotalCountAC,
@@ -36,6 +37,7 @@ type mapDispatchToPropsType = {
   setTotalUsersCount: (totalCount: number) => void;
   ToggleFeathingAC: (isFetching: boolean) => void;
   ToggleFeathingProherssAC: (isFetching: boolean, userId: number) => void;
+  getUsers: (currenPage: number, pageSize: number) => void;
 };
 
 class UsersAPIComponent extends React.Component<
@@ -43,14 +45,15 @@ class UsersAPIComponent extends React.Component<
   UsersType
 > {
   componentDidMount() {
-    this.props.ToggleFeathingAC(true);
+    this.props.getUsers(this.props.currenPage, this.props.pageSize);
+    /*this.props.ToggleFeathingAC(true);
     usersAPI
       .getUsers(this.props.currenPage, this.props.pageSize)
       .then((data) => {
         this.props.ToggleFeathingAC(false);
         this.props.setUsers(data.items);
         this.props.setTotalUsersCount(data.totalCount);
-      });
+      });*/
   }
 
   onPageChange = (page: number) => {
@@ -101,4 +104,5 @@ export const UsersContainer = connect(mapStateToProps, {
   setTotalUsersCount: setUsersTotalCountAC,
   ToggleFeathingAC,
   ToggleFeathingProherssAC,
+  getUsers: getUsersTC,
 })(UsersAPIComponent);

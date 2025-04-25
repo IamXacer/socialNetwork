@@ -1,5 +1,7 @@
 import { createSlice, PayloadAction } from "@reduxjs/toolkit";
 import { setUserAuthDataAC } from "./auth-reducer";
+import type { Dispatch } from "react";
+import { usersAPI } from "../api/api";
 
 // Типы
 export type UsersType = {
@@ -114,4 +116,15 @@ export const ToggleFeathingProherssAC = (
   userId: number,
 ) => {
   return { type: "TOGGLE_IS_FEATHING_PROGRESS", isFetching, userId } as const;
+};
+
+export const getUsersTC = (page: number, pageSize: number) => {
+  return async (dispatch: Dispatch<ActionTypes>) => {
+    dispatch(setCurrentAC(page));
+    dispatch(ToggleFeathingAC(true));
+    let data = await usersAPI.getUsers(page, pageSize);
+    dispatch(ToggleFeathingAC(false));
+    dispatch(setUsersAC(data.items));
+    dispatch(setUsersTotalCountAC(data.totalCount));
+  };
 };
