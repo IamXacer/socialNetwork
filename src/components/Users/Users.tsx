@@ -13,8 +13,8 @@ import { usersAPI } from "../../api/api";
 
 type UsersPropsType = {
   users: UsersType[];
-  FollowAC: (userId: number) => void;
-  ufollowAC: (userId: number) => void;
+  followTC: (userId: number) => void;
+  unfollowTC: (userId: number) => void;
   ToggleFeathingProherssAC: (isFetching: boolean) => void;
   onPageChange: (page: number) => void;
   totalUserCount: number;
@@ -91,17 +91,16 @@ export const Users: React.FC<UsersPropsType> = ({
   pageSize,
   currenPage,
   users,
-  FollowAC,
-  ufollowAC,
   onPageChange,
-  ToggleFeathingProherssAC,
+  unfollowTC,
+  followTC,
   followingInProgress,
 }) => {
-  const [isFollowingInProgress, setIsFollowingInProgress] = useState<number[]>(
+  /* const [isFollowingInProgress, setIsFollowingInProgress] = useState<number[]>(
     [],
-  );
+  );*/
 
-  const handleFollowClick = (userId: number) => {
+  /*  const handleFollowClick = (userId: number) => {
     setIsFollowingInProgress((prev) => [...prev, userId]); // Блокируем кнопку
     usersAPI.follow(userId).then((res) => {
       if (res.data.resultCode === 0) {
@@ -119,7 +118,7 @@ export const Users: React.FC<UsersPropsType> = ({
       }
       setIsFollowingInProgress((prev) => prev.filter((id) => id !== userId)); // Разблокируем кнопку
     });
-  };
+  };*/
   return (
     <div>
       <Paginator
@@ -145,17 +144,18 @@ export const Users: React.FC<UsersPropsType> = ({
               {" "}
               {u.followed ? (
                 <button
-                  disabled={isFollowingInProgress.includes(u.id)}
+                  /*  disabled={isFollowingInProgress.includes(u.id)}*/
+                  disabled={followingInProgress.includes(u.id)}
                   className={s.button}
-                  onClick={() => handleUnfollowClick(u.id)}
+                  onClick={() => unfollowTC(u.id)}
                 >
                   Unfollow
                 </button>
               ) : (
                 <button
-                  disabled={isFollowingInProgress.includes(u.id)}
+                  disabled={followingInProgress.includes(u.id)}
                   className={s.button}
-                  onClick={() => handleFollowClick(u.id)}
+                  onClick={() => followTC(u.id)}
                 >
                   Follow
                 </button>

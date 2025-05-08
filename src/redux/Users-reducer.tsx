@@ -1,6 +1,6 @@
 import { createSlice, PayloadAction } from "@reduxjs/toolkit";
 import { setUserAuthDataAC } from "./auth-reducer";
-import type { Dispatch } from "react";
+import { type Dispatch, useState } from "react";
 import { usersAPI } from "../api/api";
 
 // Типы
@@ -126,5 +126,30 @@ export const getUsersTC = (page: number, pageSize: number) => {
     dispatch(ToggleFeathingAC(false));
     dispatch(setUsersAC(data.items));
     dispatch(setUsersTotalCountAC(data.totalCount));
+  };
+};
+/*const [isFollowingInProgress, setIsFollowingInProgress] = useState<number[]>(
+  [],
+);*/
+export const followTC = (userId: number) => {
+  return (dispatch: Dispatch<ActionTypes>) => {
+    dispatch(ToggleFeathingProherssAC(true, userId)); // Блокируем кнопку
+    usersAPI.follow(userId).then((res) => {
+      if (res.data.resultCode === 0) {
+        dispatch(FollowAC(userId));
+      }
+      dispatch(ToggleFeathingProherssAC(false, userId)); // Разблокируем кнопку
+    });
+  };
+};
+export const unfollowTC = (userId: number) => {
+  return (dispatch: Dispatch<ActionTypes>) => {
+    dispatch(ToggleFeathingProherssAC(true, userId)); // Блокируем кнопку
+    usersAPI.unfollow(userId).then((res) => {
+      if (res.data.resultCode === 0) {
+        dispatch(ufollowAC(userId));
+      }
+      dispatch(ToggleFeathingProherssAC(false, userId)); // Разблокируем кнопку
+    });
   };
 };
