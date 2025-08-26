@@ -1,9 +1,10 @@
 import axios, { AxiosResponse } from "axios";
+
 const instance = axios.create({
   withCredentials: true,
   baseURL: " https://social-network.samuraijs.com/api/1.0",
   headers: {
-    "API-KEY": "5f4f3672-2791-4ff7-a8bb-7dec6466332c",
+    "API-KEY": "89c04748-1848-443c-9909-7e3cd00c4b38",
   },
 });
 type CommonResponse<T = []> = {
@@ -41,6 +42,29 @@ export const usersAPI = {
     );
   },
   /*  getProfile(userId: string) {
-    return profileAPI.getProfile(userId)
-  }*/
+      return profileAPI.getProfile(userId)
+    }*/
+};
+export const LoginAPI = {
+  me() {
+    return instance.get(`/auth/me`); /*.then(response => response.data)*/
+  },
+  login(
+    email: null,
+    password: null,
+    rememberMe = false,
+    captcha: string | null,
+  ) {
+    return instance.post(`/auth/login`, {
+      email,
+      password,
+      rememberMe,
+      captcha,
+    });
+    /*login(email:null,password:null,rememberMe=false) {
+            return instance.post(`/auth/login`,{email,password,rememberMe})*/
+  },
+  logout() {
+    return instance.delete(`/auth/login`);
+  },
 };
