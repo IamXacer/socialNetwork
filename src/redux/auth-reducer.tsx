@@ -1,4 +1,6 @@
 import { createSlice, PayloadAction } from "@reduxjs/toolkit";
+import type { Dispatch } from "redux";
+import { LoginAPI } from "../api/api";
 
 // Типы
 export type AuthStateType = {
@@ -25,16 +27,33 @@ export const authReducer = (
 ): AuthStateType => {
   switch (action.type) {
     case "SET_USER_DATA":
-      debugger;
       return {
         ...state,
-        ...action.data,
+        ...action.payload,
       };
     default:
       return state;
   }
 };
 
-export const setUserAuthDataAC = (userId: null, email: null, login: null) => {
-  return { type: "SET_USER_DATA", data: { userId, email, login } } as const;
+export const getMeTC = () => async (dispatch: Dispatch) => {
+  let response = await LoginAPI.me();
+  /* return  LoginAPI.me().then*/
+  if (response.data.resultCode === 0) {
+    let { id, email, login } = response.data.data;
+
+    dispatch(setUserAuthDataAC(email, id, login, true));
+  }
+};
+
+export const setUserAuthDataAC = (
+  email: string | null,
+  userId: string | null,
+  login: string | null,
+  isAuth: boolean,
+) => {
+  return {
+    type: "SET_USER_DATA",
+    payload: { email, userId, login, isAuth },
+  } as const;
 };

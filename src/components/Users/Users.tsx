@@ -15,7 +15,7 @@ type UsersPropsType = {
   users: UsersType[];
   followTC: (userId: number) => void;
   unfollowTC: (userId: number) => void;
-  ToggleFeathingProherssAC: (isFetching: boolean) => void;
+  // ToggleFeathingProherssAC: (isFetching: boolean) => void;
   onPageChange: (page: number) => void;
   totalUserCount: number;
   pageSize: number;

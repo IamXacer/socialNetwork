@@ -7,9 +7,6 @@ import {
   followTC,
   getUsersTC,
   setCurrentAC,
-  setUsersAC,
-  setUsersTotalCountAC,
-  ToggleFeathingAC,
   ToggleFeathingProherssAC,
   ufollowAC,
   unfollowTC,
@@ -36,10 +33,10 @@ type mapDispatchToPropsType = {
   unfollow: (userId: number) => void;
   /* FollowAC: (userId: number) => void;
   ufollowAC: (userId: number) => void;*/
-  setUsers: (users: UsersType[]) => void;
+  // setUsers: (users: UsersType[]) => void;
   setCurrenPage: (currenPage: number) => void;
-  setTotalUsersCount: (totalCount: number) => void;
-  ToggleFeathingAC: (isFetching: boolean) => void;
+  // setTotalUsersCount: (totalCount: number) => void;
+  // ToggleFeathingAC: (isFetching: boolean) => void;
   ToggleFeathingProherssAC: (isFetching: boolean, userId: number) => void;
   getUsers: (currenPage: number, pageSize: number) => void;
 };
@@ -53,13 +50,7 @@ class UsersAPIComponent extends React.Component<
   }
 
   onPageChange = (page: number) => {
-    // Обновляем currentPage в Redux
-    this.props.setCurrenPage(page);
-    this.props.ToggleFeathingAC(true);
-    usersAPI.getUsers(page, this.props.pageSize).then((data) => {
-      this.props.ToggleFeathingAC(false);
-      this.props.setUsers(data.items);
-    });
+    this.props.getUsers(page, this.props.pageSize);
   };
 
   render() {
@@ -74,7 +65,7 @@ class UsersAPIComponent extends React.Component<
           currenPage={this.props.currenPage}
           onPageChange={this.onPageChange}
           followingInProgress={this.props.followingInProgress}
-          ToggleFeathingProherssAC={this.props.ToggleFeathingAC}
+          // ToggleFeathingProherssAC={this.props.ToggleFeathingAC}
         />
       </>
     );
@@ -95,10 +86,7 @@ const mapStateToProps = (state: RootState): mapStateToPropsType => {
 export const UsersContainer = connect(mapStateToProps, {
   FollowAC,
   ufollowAC,
-  setUsers: setUsersAC,
   setCurrenPage: setCurrentAC,
-  setTotalUsersCount: setUsersTotalCountAC,
-  ToggleFeathingAC,
   ToggleFeathingProherssAC,
   getUsers: getUsersTC,
   follow: followTC,

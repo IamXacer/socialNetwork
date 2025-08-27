@@ -10,8 +10,9 @@ type MapDispatchPropsType = {
 };
 
 export type HeaderPropsType = MapDispatchPropsType & MapStatePropsType;
+
 class HeaderContainer extends React.Component<any, HeaderPropsType> {
-  componentDidMount() {
+  /* componentDidMount() {
     axios
       .get(`https://social-network.samuraijs.com/api/1.0/auth/me`, {
         withCredentials: true,
@@ -23,7 +24,7 @@ class HeaderContainer extends React.Component<any, HeaderPropsType> {
           this.props.setUserAuthDataAC(id, email, login);
         }
       });
-  }
+  }*/
 
   render() {
     return (
