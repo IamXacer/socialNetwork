@@ -5,6 +5,7 @@ import axios from "axios";
 import { RootState } from "../../redux/redux-store";
 
 import {
+  getProfileTC,
   type initStateType,
   type ProfileType,
   setUserProfile,
@@ -50,8 +51,9 @@ class ProfileContainer extends React.Component<any, initStateType> {
     if (!userId) {
       userId = 2;
     }
-    this.props.ToggleFeathingAC(true);
-    axios
+    // this.props.ToggleFeathingAC(true);
+    this.props.getProfileTC(userId);
+    /*  axios
       .get(`https://social-network.samuraijs.com/api/1.0/profile/` + userId)
       .then((response) => {
         this.props.ToggleFeathingAC(false);
@@ -59,7 +61,7 @@ class ProfileContainer extends React.Component<any, initStateType> {
       })
       .catch((error) => {
         console.error("Error fetching profile:", error);
-      });
+      });*/
   }
 
   render() {
@@ -70,7 +72,6 @@ class ProfileContainer extends React.Component<any, initStateType> {
         </div>
       ); // Показываем сообщение или компонент загрузки
     }
-
     return <MyPostsContainer {...this.props} profile={this.props.profile} />;
   }
 }
@@ -89,7 +90,8 @@ const mapStateToProps = (state: RootState): mapStateToPropsType => {
 // mapDispatchToProps: добавляем экшен для dispatch
 const mapDispatchToProps = {
   setUserProfile,
-  ToggleFeathingAC, // Теперь экшен доступен для передачи через пропсы
+  ToggleFeathingAC,
+  getProfileTC, // Теперь экшен доступен для передачи через пропсы
 };
 
 // Применяем обёртку с маршрутизатором

@@ -19,6 +19,12 @@ export type CommonResponse1<T = {}> = {
   messages: string[];
   resultCode: number;
 };
+export const profileAPI = {
+  getProfile(userId: string) {
+    return instance.get("profile/" + userId);
+  },
+};
+
 export const usersAPI = {
   getUsers: (currenPage = 1, pageSize = 10) => {
     // return instance.get<CommonResponse<any>>(`users?page=${currenPage}&count=${pageSize}`)
@@ -40,6 +46,9 @@ export const usersAPI = {
     return instance.post<CommonResponse1, AxiosResponse<CommonResponse1>>(
       `follow/${userId}`,
     );
+  },
+  getProfile(userId: string) {
+    return profileAPI.getProfile(userId);
   },
   /*  getProfile(userId: string) {
       return profileAPI.getProfile(userId)

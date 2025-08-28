@@ -1,4 +1,8 @@
 // Тип для поста
+import { usersAPI } from "../api/api";
+import type { Dispatch } from "redux";
+import { ToggleFeathingAC } from "./Users-reducer";
+
 export type PostsType = {
   id: number;
   message: string;
@@ -75,6 +79,22 @@ export const setStatusProfileAC = (status: string) => ({
   status,
 });
 
+export const getProfileTC = (userId: string) => async (dispatch: Dispatch) => {
+  try {
+    // Устанавливаем флаг загрузки в true перед запросом
+    dispatch(ToggleFeathingAC(true));
+    // Получаем данные с API
+    const response = await usersAPI.getProfile(userId);
+    // После успешного запроса диспатчим данные в store
+    dispatch(setUserProfile(response.data));
+    // Устанавливаем флаг загрузки в false, когда запрос завершен
+    dispatch(ToggleFeathingAC(false));
+  } catch (error) {
+    console.error("Error fetching profile:", error);
+    // Устанавливаем флаг загрузки в false, если произошла ошибка
+    dispatch(ToggleFeathingAC(false));
+  }
+};
 // Тип экшенов
 type ActionTypes =
   | ReturnType<typeof addPostAC>
