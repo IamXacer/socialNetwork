@@ -5,17 +5,12 @@ import { BrowserRouter, Route, Routes } from "react-router-dom";
 import { Provider } from "react-redux"; // Импортируем Provider
 import { store } from "./redux/redux-store";
 import { DialogsContainer } from "./components/Dialogs/DialogsContainer";
-import MyPostsContainer from "./components/Profile/MyPosts/MyPostsContainer";
 import ProfileContainer from "./components/Profile/ProfileContainer";
 import HeaderContainer from "./components/Header/HeaderContainer";
 import { UsersContainer } from "./components/Users/UsersContainer";
 
 // Импортируем функцию updateArray
 import { updateArray } from "./utils"; // Укажите путь к файлу utils.ts
-
-type AppProps = {
-  /* addMessage: (message: string) => void; */
-};
 
 function App() {
   // Добавляем useEffect, чтобы увидеть сообщение при монтировании компонента
